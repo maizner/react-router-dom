@@ -8,8 +8,8 @@ function Menu () {
     <nav>
         <ul>
             {routes.map(route => {
-                if (route.private && !auth.user) return null;
-                if (route.publicOnly && auth.user) return null;
+                if ( !auth.user && route.private ) return null;
+                if ( auth.user && route.hideOnAuth ) return null;
                
 
                 return(
@@ -53,7 +53,7 @@ routes.push({
 routes.push({
     to: '/login', 
     text: 'Login',
-    publicOnly: true,
+    hideOnAuth: true,
     private: false
 });
 routes.push({
