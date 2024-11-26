@@ -1,4 +1,5 @@
 import { HashRouter, Routes, Route } from "react-router-dom";
+import { BlogProvider } from './BlogContext';
 import { HomePage } from "./HomePage";
 import { BlogPage } from "./BlogPage";
 import { BlogPost } from "./BlogPost";
@@ -6,7 +7,7 @@ import { ProfilePage } from "./ProfilePage";
 import { LoginPage } from "./LoginPage";
 import { LogoutPage } from "./LogoutPage";
 import { Menu } from "./Menu";
-import { AuthProvider, ProtectedPath } from "./auth";
+import { AuthProvider, AuthRoute } from "./auth";
 
 
 function App() {
@@ -17,24 +18,28 @@ function App() {
           <Routes>
               <Route path="/" element={<HomePage />} />
               <Route path="/blog" element={<BlogPage />} />
-              <Route path="/blog/:slug" element={<BlogPost />} />
+              <Route path="/blog/:slug" element={
+                <BlogProvider>
+                  <BlogPost />
+                </BlogProvider>
+              } />
               <Route path="/login" element={<LoginPage />} />
             
               <Route 
                 path="/logout" 
                 element={
-                <ProtectedPath>
+                <AuthRoute>
                   <LogoutPage />
-                </ProtectedPath>
+                </AuthRoute>
                  } 
               />
 
               <Route 
                 path="/profile" 
                 element={
-                <ProtectedPath>
+                <AuthRoute>
                   <ProfilePage />
-                </ProtectedPath>
+                </AuthRoute>
                  } 
               />
               <Route path="*" element={<p>Not found </p>} />

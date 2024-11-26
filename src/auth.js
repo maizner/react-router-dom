@@ -1,16 +1,28 @@
 import  React  from 'react'; 
 import { Navigate, useNavigate } from 'react-router-dom';
 
-const adminList = ['aguacaChonga', 'pepaFig', 'GominolaBear']
+const adminList = ['aguacaT', 'pepaFig', 'GominolaBear', 'maizner']
+const moderatorList = ['ehunMonton', 'pipiriripi', 'maizner']
+
 const AuthContext = React.createContext();
 
 function AuthProvider({children}){
     const navigate = useNavigate();
+
     const [user, setUser] = React.useState(null)
 
     const login = ({username}) => {
-        const isAdmin = adminList.find(admin => admin === username);
-        setUser({username, isAdmin})
+        const isAdmin = adminList.includes(username);
+        const isModerator = moderatorList.includes(username);
+
+        if (isAdmin){
+            setUser({ username, role: 'admin' })
+        }else if (isModerator){
+            setUser({ username, role: 'moderator' })
+        }else {
+            setUser({ username, role: 'unauthorized' }); 
+        }
+        
         navigate('/profile')
     };
     
@@ -20,6 +32,7 @@ function AuthProvider({children}){
     };
 
     const auth = { user, login, logout };
+
     return(
         <AuthContext.Provider value = {auth}>
             {children}
@@ -32,7 +45,7 @@ function useAuth(){
     return auth; 
 }
 
-function ProtectedPath(props) {
+function AuthRoute(props) {
     const auth = useAuth(); 
     if (!auth.user){
         return  < Navigate to = '/login ' />
@@ -43,5 +56,5 @@ function ProtectedPath(props) {
 export{
     AuthProvider,
     useAuth,
-    ProtectedPath
+    AuthRoute
 }
