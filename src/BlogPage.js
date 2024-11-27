@@ -1,13 +1,19 @@
 import  React  from 'react'; 
 import { Link } from 'react-router-dom';
 import { blogdata } from './blogdata';
+import { useBlog } from "./BlogContext";
 
 function BlogPage () {
+   const { posts } = useBlog();
+
+
    return (
     <>
     <h1>BlogPage</h1>
     <ul>
-      {blogdata.map( post => (
+      {posts 
+      .filter( post => post.state === 'activo' )
+      .map( post => (
          < BlogLink key = {post.slug} post={post}  />
       ) )}
     </ul>

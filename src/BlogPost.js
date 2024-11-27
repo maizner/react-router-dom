@@ -1,24 +1,22 @@
 import React from 'react'; 
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAuth } from './auth';
-// import { blogdata } from './blogdata';
 import { useBlog } from "./BlogContext";
 
 function BlogPost () {
 
+   const { posts, updatePostState } = useBlog();
    const auth = useAuth(); 
    const { slug } = useParams();
-   const { posts, updatePostState } = useBlog(); 
    const navigate = useNavigate();
-   const blogpost =  posts.find( post => post.slug === slug);
-   // const [blogpost, setBlogpost] = useState(posts.find(post => post.slug === slug ))
-   // useEffect( () => {
-   //    setBlogpost(posts.find(post => post.slug === slug));
-   // }, [posts, slug])
+
+   // const blogpost =  posts.find( post => post.slug === slug);
+   const getBlogPost = () => posts.find(post => post.slug === slug);
+   const blogpost = getBlogPost();
+   const ownerRole = blogpost.author;
 
    // const [rating, setRating] = useState(null);
    const userRole = auth.user?.role;
-   const ownerRole = blogpost.author;
    const authDelete = userRole === 'admin';
    const authUnpublish = userRole === 'admin' || userRole === 'moderator' || ownerRole === auth.user?.username;
    const unAuth = userRole === 'unauthorized';
@@ -38,8 +36,8 @@ function BlogPost () {
    } 
 
    const handleRemove = () => {
-      updatePostState(blogpost.slug, 'eliminado');
-      console.log('hizo clic en Delete, el estado es:', posts.find(post => post.slug === slug)?.state);
+      updatePostState(blogpost.slug, 'eliminado'); 
+      console.log('hizo clic en Delete');
 
    }
 

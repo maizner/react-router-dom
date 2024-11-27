@@ -15,35 +15,33 @@ function App() {
     <HashRouter>
       <AuthProvider>
         < Menu /> 
-          <Routes>
-              <Route path="/" element={<HomePage />} />
-              <Route path="/blog" element={<BlogPage />} />
-              <Route path="/blog/:slug" element={
-                <BlogProvider>
-                  <BlogPost />
-                </BlogProvider>
-              } />
-              <Route path="/login" element={<LoginPage />} />
-            
-              <Route 
-                path="/logout" 
-                element={
-                <AuthRoute>
-                  <LogoutPage />
-                </AuthRoute>
-                 } 
-              />
+          <BlogProvider>
+            <Routes>
+                <Route path="/" element={<HomePage />} />
+                <Route path="/blog" element={<BlogPage />} />
+                <Route path="/blog/:slug" element={<BlogPost />} />
+                <Route path="/login" element={<LoginPage />} />
+              
+                <Route 
+                  path="/logout" 
+                  element={
+                  <AuthRoute>
+                    <LogoutPage />
+                  </AuthRoute>
+                  } 
+                />
 
-              <Route 
-                path="/profile" 
-                element={
-                <AuthRoute>
-                  <ProfilePage />
-                </AuthRoute>
-                 } 
-              />
-              <Route path="*" element={<p>Not found </p>} />
-          </Routes>
+                <Route 
+                  path="/profile" 
+                  element={
+                  <AuthRoute>
+                    <ProfilePage />
+                  </AuthRoute>
+                  } 
+                />
+                <Route path="*" element={<p>Not found </p>} />
+            </Routes>
+          </BlogProvider>
         </AuthProvider>
     </HashRouter>
   );
